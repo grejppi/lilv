@@ -16,8 +16,9 @@
 
 #include "lilv_internal.h"
 
-#include "lv2/lv2plug.in/ns/lv2core/lv2.h"
 #include "lilv/lilv.h"
+#include "lv2/lv2plug.in/ns/lv2core/lv2.h"
+#include "serd/serd.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -42,7 +43,7 @@ lilv_plugin_instantiate(const LilvPlugin*        plugin,
 		return NULL;
 	}
 
-	char* const bundle_path = lilv_file_uri_parse(
+	char* const bundle_path = serd_file_uri_parse(
 		lilv_node_as_uri(bundle_uri), NULL);
 
 	LilvLib* lib = lilv_lib_open(plugin->world, lib_uri, bundle_path, features);

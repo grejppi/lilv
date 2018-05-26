@@ -19,19 +19,7 @@
 
 #include "lilv/lilv.h"
 
-#if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 1)
-#    define LILV_DEPRECATED __attribute__((__deprecated__))
-#else
-#    define LILV_DEPRECATED
-#endif
-
 namespace Lilv {
-
-LILV_DEPRECATED
-static inline const char*
-uri_to_path(const char* uri) {
-	return lilv_uri_to_path(uri);
-}
 
 #define LILV_WRAP0(RT, prefix, name) \
 	inline RT name() { return lilv_ ## prefix ## _ ## name (me); }
