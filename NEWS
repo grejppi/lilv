@@ -1,3 +1,9 @@
+lilv (0.24.5) unstable;
+
+  * Fix creating directories across drives on Windows
+
+ -- David Robillard <d@drobilla.net>  Sat, 18 Aug 2018 09:52:17 +0200
+
 lilv (0.24.4) stable;
 
   * Fix saving state when broken links are encountered
