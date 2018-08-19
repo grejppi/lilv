@@ -1,8 +1,11 @@
 lilv (0.24.5) unstable;
 
   * Fix creating directories across drives on Windows
+  * Don't build lv2apply and lv2bench when configured without utilities
+  * Fix MingW build
+  * Upgrade to waf 2.0.10
 
- -- David Robillard <d@drobilla.net>  Sat, 18 Aug 2018 09:52:17 +0200
+ -- David Robillard <d@drobilla.net>  Sun, 19 Aug 2018 15:50:37 +0200
 
 lilv (0.24.4) stable;
 
