@@ -1028,11 +1028,11 @@ new_lv2_env(const SerdNode* base)
 }
 
 static void
-maybe_write_prefixes(SerdSink* sink, SerdEnv* env, FILE* file)
+maybe_write_prefixes(const SerdSink* sink, SerdEnv* env, FILE* file)
 {
 	fseek(file, 0, SEEK_END);
 	if (ftell(file) == 0) {
-		serd_env_send_prefixes(env, sink);
+		serd_env_write_prefixes(env, sink);
 	} else {
 		fprintf(file, "\n");
 	}
@@ -1057,7 +1057,7 @@ lilv_plugin_write_description(LilvWorld*        world,
 		(SerdWriteFunc)fwrite,
 		plugin_file);
 
-	SerdSink* iface = serd_writer_get_sink(writer);
+	const SerdSink* iface = serd_writer_get_sink(writer);
 
 	// Write prefixes if this is a new file
 	maybe_write_prefixes(iface, env, plugin_file);
@@ -1098,7 +1098,7 @@ lilv_plugin_write_manifest_entry(LilvWorld*        world,
 		(SerdWriteFunc)fwrite,
 		manifest_file);
 
-	SerdSink* iface = serd_writer_get_sink(writer);
+	const SerdSink* iface = serd_writer_get_sink(writer);
 
 	// Write prefixes if this is a new file
 	maybe_write_prefixes(iface, env, manifest_file);

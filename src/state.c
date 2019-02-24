@@ -800,7 +800,7 @@ ttl_file_writer(SerdWorld* world, FILE* fd, const SerdNode* node, SerdEnv** env)
 
 	fseek(fd, 0, SEEK_END);
 	if (ftell(fd) == 0) {
-		serd_env_send_prefixes(*env, serd_writer_get_sink(writer));
+		serd_env_write_prefixes(*env, serd_writer_get_sink(writer));
 	} else {
 		fprintf(fd, "\n");
 	}
@@ -936,7 +936,7 @@ static void
 write_property_array(const LilvState*     state,
                      const PropertyArray* array,
                      Sratom*              sratom,
-                     SerdSink*            sink,
+                     const SerdSink*      sink,
                      const SerdNode*      subject,
                      LV2_URID_Unmap*      unmap,
                      const char*          dir)
@@ -974,10 +974,8 @@ lilv_state_write(LilvWorld*       world,
                  const char*      dir)
 {
 	const SerdNode* plugin_uri = state->plugin_uri;
-
-	SerdNode* subject = serd_new_uri(uri ? uri : "");
-
-	SerdSink* iface = serd_writer_get_sink(writer);
+	SerdNode*       subject    = serd_new_uri(uri ? uri : "");
+	const SerdSink* iface      = serd_writer_get_sink(writer);
 
 	// <subject> a pset:Preset
 	serd_sink_write(iface,
@@ -1011,7 +1009,7 @@ lilv_state_write(LilvWorld*       world,
 	//	const SerdNode* base = serd_env_get_base_uri(env);
 
 	Sratom* sratom = sratom_new(world->world, map);
-	SerdSink* sink = serd_writer_get_sink(writer);
+	const SerdSink* sink = serd_writer_get_sink(writer);
 	/* sratom_set_sink(sratom, */
 	/*                 serd_node_get_string(base), */
 	/*                 serd_writer_get_sink(writer)); */
@@ -1055,7 +1053,7 @@ lilv_state_write(LilvWorld*       world,
 		             value->size,
 		             value->value);
 
-		serd_sink_end(iface, port);
+		serd_sink_write_end(iface, port);
 	}
 
 	// Write properties
@@ -1073,7 +1071,7 @@ lilv_state_write(LilvWorld*       world,
 		state, &state->props, sratom, sink, body, unmap, dir);
 
 	if (state->props.n > 0) {
-		serd_sink_end(iface, body);
+		serd_sink_write_end(iface, body);
 	}
 
 	sratom_free(sratom);
